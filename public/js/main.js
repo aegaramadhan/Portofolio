@@ -1,9 +1,8 @@
-// Main JavaScript for Portfolio Website
+// Main JavaScript buat halaman utama
 document.addEventListener('DOMContentLoaded', function() {
-    // Load settings first
     loadSettings();
     
-    // Mobile navbar toggle
+    // navbar hp
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.getElementById('navMenu');
     if (navToggle && navMenu) {
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navToggle.setAttribute('aria-expanded', String(isOpen));
         });
 
-        // Close menu when clicking a link (for in-page and external)
         navMenu.querySelectorAll('a.nav-link').forEach(link => {
             link.addEventListener('click', function() {
                 if (navMenu.classList.contains('open')) {
@@ -24,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Close when clicking outside on mobile
         document.addEventListener('click', function(e) {
             if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
                 if (navMenu.classList.contains('open')) {
@@ -51,15 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Project filtering
+    // Projectdifilter
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectsGrid = document.getElementById('projectsGrid');
 
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
+
             this.classList.add('active');
 
             const category = this.getAttribute('data-category');
@@ -96,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
-        const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+        const offsetTop = element.offsetTop - 80;//untuk navbar fix
         
         window.scrollTo({
             top: offsetTop,
@@ -140,14 +136,11 @@ async function loadProjects(category = 'all') {
 
         const response = await fetch(url);
         let projects = await response.json();
-        
-        // Sort projects: featured projects first
         projects.sort((a, b) => {
             if (a.featured && !b.featured) return -1;
             if (!a.featured && b.featured) return 1;
             return new Date(b.createdAt) - new Date(a.createdAt);
         });
-
         displayProjects(projects);
     } catch (error) {
         console.error('Error loading projects:', error);
@@ -158,7 +151,6 @@ async function loadProjects(category = 'all') {
 // Function to display projects
 function displayProjects(projects) {
     const projectsGrid = document.getElementById('projectsGrid');
-    
     if (projects.length === 0) {
         projectsGrid.innerHTML = `
             <div class="empty-state">
@@ -197,7 +189,6 @@ function displayProjects(projects) {
 
 // Function to view project details
 function viewProject(projectUrl) {
-    // Open project URL in new tab if URL exists
     if (projectUrl && projectUrl.trim() !== '') {
         window.open(projectUrl, '_blank', 'noopener,noreferrer');
     } else {
@@ -207,7 +198,7 @@ function viewProject(projectUrl) {
 
 // Function to view all projects
 function viewAllProjects() {
-    // Reset filter to "All"
+    // reset filter menjadi untuk semua
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
         if (btn.getAttribute('data-category') === 'all') {
@@ -217,14 +208,13 @@ function viewAllProjects() {
         }
     });
     
-    // Load all projects
+    // menampilan semua projek
     loadProjects('all');
-    
-    // Scroll to projects section
+    // scrol ke bagian projek
     scrollToSection('projects');
 }
 
-// Smooth Parallax Effect for Hero Section
+// Paralax untuk hero/bagian atas
 let ticking = false;
 const hero = document.querySelector('.hero');
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -235,17 +225,12 @@ function updateParallax() {
     const scrolled = window.pageYOffset;
     const heroHeight = hero.offsetHeight;
     
-    // Only apply parallax if hero is in viewport
     if (scrolled < heroHeight) {
-        // Smooth parallax movement (slower than scroll)
-        const parallaxSpeed = 0.3; // Reduced speed for smoother effect
+        const parallaxSpeed = 0.3;
         const yPos = scrolled * parallaxSpeed;
-        
-        // Apply background position for smooth parallax
-        // Using positive value so background moves down as you scroll
+
         hero.style.backgroundPosition = `center calc(50% + ${yPos}px)`;
         
-        // Optional: Subtle fade effect as you scroll
         const opacity = 1 - (scrolled / heroHeight) * 0.2;
         hero.style.opacity = Math.max(opacity, 0.85);
     }
@@ -315,7 +300,6 @@ function truncateText(text, limit) {
 
 // Toggle description expand/collapse per card
 function toggleDescription(event, button) {
-    // Prevent triggering card click (viewProject)
     if (event) event.stopPropagation();
     const descriptionEl = button.previousElementSibling;
     if (!descriptionEl) return;
@@ -340,7 +324,7 @@ async function loadSettings() {
         applySettings(settings);
     } catch (error) {
         console.error('Error loading settings:', error);
-        // If settings fail to load, page will use default HTML values
+        
     }
 }
 
@@ -381,31 +365,31 @@ function applySettings(settings) {
         }
     }
     
-    // Update page title
-    if (settings.name && settings.title) {
-        document.title = `${settings.name} - ${settings.title}`;
-    }
+    // // Update page title
+    // if (settings.name && settings.title) {
+    //     document.title = `${settings.name} - ${settings.title}`;
+    // }
     
-    // Update navbar brand
-    const navBrand = document.querySelector('.nav-brand h2');
-    if (navBrand && settings.name) {
-        navBrand.textContent = settings.name;
-    }
+    // // Update navbar brand
+    // const navBrand = document.querySelector('.nav-brand h2');
+    // if (navBrand && settings.name) {
+    //     navBrand.textContent = settings.name;
+    // }
     
-    // Update footer
-    const footerHeading = document.querySelector('.footer-left h3');
-    if (footerHeading && settings.name) {
-        footerHeading.textContent = settings.name;
-    }
+    // // Update footer
+    // const footerHeading = document.querySelector('.footer-left h3');
+    // if (footerHeading && settings.name) {
+    //     footerHeading.textContent = settings.name;
+    // }
     
-    const footerSubtitle = document.querySelector('.footer-left p');
-    if (footerSubtitle && settings.title) {
-        footerSubtitle.textContent = settings.title;
-    }
+    // const footerSubtitle = document.querySelector('.footer-left p');
+    // if (footerSubtitle && settings.title) {
+    //     footerSubtitle.textContent = settings.title;
+    // }
     
-    // Update contact section
-    const contactHeader = document.querySelector('.contact-header h2');
-    if (contactHeader && settings.name) {
-        contactHeader.textContent = settings.name;
-    }
+    // // Update contact section
+    // const contactHeader = document.querySelector('.contact-header h2');
+    // if (contactHeader && settings.name) {
+    //     contactHeader.textContent = settings.name;
+    // }
 }

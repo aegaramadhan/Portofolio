@@ -20,6 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// View engine setup
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback-secret-key',
@@ -38,12 +42,12 @@ app.use('/api/settings', settingsRoutes);
 
 // Serve main portfolio page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.render('index');
 });
 
 // Serve admin page
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+  res.render('admin');
 });
 
 // Error handling middleware

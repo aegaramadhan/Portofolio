@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
-  // Hero Section
+  // bagain atas
   heroGreeting: {
     type: String,
     default: "Hello, I'm"
@@ -19,7 +19,7 @@ const settingsSchema = new mongoose.Schema({
     default: 'Saya mengembangkan pengalaman di dunia digital dengan menggabungkan tampilan yang indah dengan kinerja yang baik. Kompetensi di lingkup aplikasi web dan desain untuk pengguna.'
   },
   
-  // Skills Summary
+  // bagian bawahnya skill
   primaryStack: {
     type: String,
     default: 'Express.js and HTML/CSS'

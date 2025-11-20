@@ -38,8 +38,7 @@
 
 
 .admin-actions .btn-secondary {
-    color: #141414;  /* Mengubah warna font menjadi hitam */
-    font-weight: 500;  /* Opsional: membuat font sedikit lebih tebal */
+    color: #141414;  
     background-color: #f9fbff;
 }
 
