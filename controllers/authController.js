@@ -3,17 +3,22 @@ const User = require('../models/User');
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log('Login attempt with username:', username);
 
     if (!username || !password) {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
     const user = await User.findOne({ username });
+    console.log('User found:', user ? 'Yes' : 'No');
+    
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isMatch = await user.comparePassword(password);
+    console.log('Password match:', isMatch);
+    
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
